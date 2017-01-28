@@ -1,0 +1,6 @@
+version: '2'
+services:
+  section-1-1-service:
+    build: ../.
+    ports:
+      - 8080:8080
