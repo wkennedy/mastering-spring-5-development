@@ -1,0 +1,7 @@
+my:
+  property: Mastering Spring - Development
+
+simple:
+  name: Simple Development Properties
+  enabled: true
+  description: ${simple.name} is a collection of  properties.
