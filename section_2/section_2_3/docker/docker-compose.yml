@@ -1,0 +1,48 @@
+version: '2'
+services:
+
+  section-2-3-service:
+    build: ../.
+    ports:
+      - 8080:8080
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+
+  influxdb:
+    container_name: influxdb
+    image: influxdb:latest
+    ports:
+      - "8086:8086"
+      - "8083:8083"
+      - "8090:8090"
+      - "8099:8099"
+    environment:
+      INFLUXDB_DATA_ENGINE: tsm1
+
+  telegraf:
+    container_name: telegraf
+    image: telegraf:latest
+    volumes:
+      - ./configs/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    ports:
+      - "8125:8125"
+    depends_on:
+      - influxdb
+      - grafana
+    links:
+      - influxdb
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    volumes:
+      - ./configs/:/etc/grafana/scripts
+    ports:
+      - "3000:3000"
+    depends_on:
+      - influxdb
+    links:
+      - influxdb

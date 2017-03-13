@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <springProfile name="development">
+        <logger name="com.github.wkennedy.service" level="TRACE" additivity="false">
+            <appender-ref ref="CONSOLE" />
+        </logger>>
+    </springProfile>
+
+    <springProperty scope="context" name="appName" source="spring.application.name"/>
+
+    <springProfile name="production">
+        <property name="LOG_FILE" value="${appName}-spring.log}"/>
+        <include resource="org/springframework/boot/logging/logback/file-appender.xml" />
+        <root level="INFO">
+            <appender-ref ref="FILE" />
+        </root>
+    </springProfile>
+
+</configuration>
