@@ -19,7 +19,7 @@ public class SimpleController {
 
     @RequestMapping("/")
     public String index() {
-        log.debug("In index method in SimpleController");
+        log.trace("In index method in SimpleController");
         return simpleService.getName();
     }
 

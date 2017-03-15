@@ -4,7 +4,7 @@
     <springProfile name="development">
         <logger name="com.github.wkennedy.service" level="TRACE" additivity="false">
             <appender-ref ref="CONSOLE" />
-        </logger>>
+        </logger>
     </springProfile>
 
     <springProperty scope="context" name="appName" source="spring.application.name"/>
