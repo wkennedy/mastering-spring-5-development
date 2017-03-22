@@ -48,6 +48,14 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-staticdocs</artifactId>
+			<version>2.6.1</version>
+			<scope>test</scope>
+		</dependency>
+
         <!--If you want to use RestAssured instead of MockMvc, then include spring-restdocs-restassured-->
 		<dependency>
 			<groupId>org.springframework.restdocs</groupId>
