@@ -1,0 +1,44 @@
+= Simple Service REST Doc
+Will Kennedy;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+== Simple Service
+
+This is a simple example of using Spring REST Docs to generate your API guide.
+
+=== Getting the welcome message
+
+==== Request structure
+include::{snippets}/simple-welcome/http-request.adoc[]
+
+==== Response structure
+include::{snippets}/simple-welcome/http-response.adoc[]
+
+==== Response body
+include::{snippets}/simple-welcome/response-body.adoc[]
+
+==== Example cURL request
+include::{snippets}/simple-welcome/curl-request.adoc[]
+
+=== Posting a simple message
+
+==== Request structure
+include::{snippets}/simple-post/http-request.adoc[]
+
+==== Response structure
+include::{snippets}/simple-post/http-response.adoc[]
+
+==== Path variable
+include::{snippets}/simple-post/path-parameters.adoc[]
+
+==== Response body
+include::{snippets}/simple-post/response-body.adoc[]
+
+==== Example cURL request
+include::{snippets}/simple-post/curl-request.adoc[]
+
