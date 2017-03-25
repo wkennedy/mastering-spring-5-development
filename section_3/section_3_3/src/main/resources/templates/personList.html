@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Section 3.3 - Person List</title>
+    <script src="content-script.js"></script>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="personList">
+        <h2>All People</h2>
+
+        <table border="1">
+            <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="person : ${allPersons}">
+                <td th:text="${person.firstName}"></td>
+                <td th:text="${person.lastName}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</section>
+<footer>
+    <p layout:fragment="custom-footer">This is the footer from the personList content</p>
+</footer>
+</body>
+</html>
