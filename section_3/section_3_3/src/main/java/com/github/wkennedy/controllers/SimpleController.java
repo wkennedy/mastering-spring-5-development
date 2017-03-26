@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -29,9 +30,18 @@ public class SimpleController {
         return "personList";
     }
 
-
     @ModelAttribute("allPersons")
     public List<Person> populatePersons() {
         return personService.getPersons();
+    }
+
+    @ModelAttribute("simpleValue")
+    public String populateSimpleValue() {
+        return "Hello!";
+    }
+
+    @ModelAttribute("today")
+    public LocalDate localDate() {
+        return LocalDate.now();
     }
 }

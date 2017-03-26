@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:data="http://www.thymeleaf.org/extras/data">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Title</title>
 </head>
 <body>
-<div class="personList">
-    <h2>All People</h2>
+<div class="personList" data:simple="${simpleValue}">
+    <h2 th:inline="text">All People as of [[${#temporals.format(today, 'dd/MMM/yyyy', locale)}]]</h2>
 
     <table border="1">
         <thead>
