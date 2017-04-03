@@ -1,0 +1,45 @@
+//package com.github.wkennedy.routers;
+//
+//import com.github.wkennedy.dto.Person;
+//import org.junit.Before;
+//import org.junit.Test;
+//import org.junit.runner.RunWith;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
+//import org.springframework.boot.test.context.SpringBootTest;
+//import org.springframework.http.MediaType;
+//import org.springframework.test.context.junit4.SpringRunner;
+//import org.springframework.test.web.reactive.server.WebTestClient;
+//import reactor.core.publisher.Flux;
+//
+//import java.time.Duration;
+//
+//import static org.junit.Assert.*;
+//
+//@RunWith(SpringRunner.class)
+//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+//@AutoConfigureWebTestClient
+//public class SimpleReactiveRouterTest {
+//
+//    private WebTestClient webTestClientReact;
+//
+//    @Autowired
+//    private SimpleReactiveRouter simpleReactiveRouter;
+//
+//    @Before
+//    public void before() {
+//        this.webTestClientReact = WebTestClient.bindToRouterFunction(simpleReactiveRouter.routerFunction()).build();
+//    }
+//
+//    @Test
+//    public void routerFunction() throws Exception {
+//        Flux<Person> personFlux = webTestClientReact.get().uri("/react/functional/persons").accept(MediaType.APPLICATION_JSON)
+//                .exchange().expectStatus().is2xxSuccessful().expectBody(Person.class)
+//                .returnResult().getResponseBody().cast(Person.class);
+//
+//        personFlux.delaySubscription(Duration.ofSeconds(0))
+//                .toStream()
+//                .forEach(s -> System.out.println(1 + ": " + s));
+//    }
+//
+//}
