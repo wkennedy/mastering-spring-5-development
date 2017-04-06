@@ -21,7 +21,6 @@ public class ThymeleafReactiveController {
         this.simpleService = simpleService;
     }
 
-
     @RequestMapping("/personsTemplate")
     public String getPersons(final Model model) {
         final Flux<Person> personFlux = simpleService.getPersonsWithDelay(200L);
@@ -38,6 +37,5 @@ public class ThymeleafReactiveController {
         model.addAttribute("dataSource", playlistEntries);
 
         return "thymeleaf/persons";
-
     }
 }
