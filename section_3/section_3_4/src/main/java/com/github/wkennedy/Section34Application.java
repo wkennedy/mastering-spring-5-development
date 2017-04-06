@@ -6,7 +6,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.reactive.config.EnableWebFlux;
 
 @SpringBootApplication
-@EnableWebFlux
+//@EnableWebFlux
 public class Section34Application {
 
 	public static void main(String[] args) {

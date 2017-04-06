@@ -7,6 +7,10 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -25,9 +29,27 @@ public class SimpleService {
     }
 
     public Flux<Person> getPersons() {
-        Stream<Person> personStream = IntStream.range(1, 10000)
+        Stream<Person> personStream = IntStream.range(0, 10_000)
+                .parallel()
                 .mapToObj(i -> new Person("John", "Doe" + i))
                 .peek(person -> log.info("Creating person: " + person.toString()));
         return Flux.fromStream(personStream);
     }
+
+    public Flux<Person> getPersonsWithDelay(Long millis) {
+        Stream<Person> personStream = IntStream.range(0, 10_000)
+                .parallel()
+                .mapToObj(i -> new Person("John", "Doe" + i))
+                .peek(person -> log.info("Creating person: " + person.toString()));
+        return Flux.fromStream(personStream).delayElements(Duration.ofMillis(millis));
+    }
+
+//    public Flux<Person> getPersons() {
+//        List<Person> personList = new ArrayList<>();
+//        for(int i = 0; i < 100_000_000; i++) {
+//            personList.add(new Person("John", "Doe" + i));
+//        }
+//
+//        return Flux.fromIterable(personList);
+//    }
 }

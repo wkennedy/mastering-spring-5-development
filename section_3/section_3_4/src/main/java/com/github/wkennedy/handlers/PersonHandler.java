@@ -25,7 +25,7 @@ public class PersonHandler {
     }
 
     public Mono<ServerResponse> getPersons(ServerRequest request) {
-        Flux<Person> persons = simpleService.getPersons();
+        Flux<Person> persons = simpleService.getPersons().log();;
         return ServerResponse.ok().body(persons, Person.class);
     }
 }

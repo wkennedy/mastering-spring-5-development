@@ -30,7 +30,7 @@ public class SimpleReactiveController {
 
     @GetMapping("/persons/delay/{delay}")
     public Flux<Person> getPersons(@PathVariable Long delay) {
-        return simpleService.getPersons().delaySubscription(Duration.ofMillis(delay));
+        return simpleService.getPersons().delayElements(Duration.ofMillis(delay));
     }
 
     @GetMapping("/person")

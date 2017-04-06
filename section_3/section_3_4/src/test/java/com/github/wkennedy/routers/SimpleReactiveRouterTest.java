@@ -14,26 +14,24 @@
 //
 //import java.time.Duration;
 //
-//import static org.junit.Assert.*;
-//
 //@RunWith(SpringRunner.class)
 //@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 //@AutoConfigureWebTestClient
 //public class SimpleReactiveRouterTest {
 //
-//    private WebTestClient webTestClientReact;
+//    private WebTestClient webTestClient;
 //
 //    @Autowired
 //    private SimpleReactiveRouter simpleReactiveRouter;
 //
 //    @Before
 //    public void before() {
-//        this.webTestClientReact = WebTestClient.bindToRouterFunction(simpleReactiveRouter.routerFunction()).build();
+//        this.webTestClient = WebTestClient.bindToRouterFunction(simpleReactiveRouter.routerFunction()).build();
 //    }
 //
 //    @Test
 //    public void routerFunction() throws Exception {
-//        Flux<Person> personFlux = webTestClientReact.get().uri("/react/functional/persons").accept(MediaType.APPLICATION_JSON)
+//        Flux<Person> personFlux = webTestClient.get().uri("/react/functional/persons").accept(MediaType.APPLICATION_JSON)
 //                .exchange().expectStatus().is2xxSuccessful().expectBody(Person.class)
 //                .returnResult().getResponseBody().cast(Person.class);
 //
