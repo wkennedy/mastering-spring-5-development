@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
+import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -21,8 +22,7 @@ import java.time.Duration;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @AutoConfigureWebTestClient
-//@WebFluxTest
-//@Ignore
+@WebFluxTest
 public class SimpleReactiveControllerTest {
 
     private WebTestClient webTestClient;
@@ -50,12 +50,14 @@ public class SimpleReactiveControllerTest {
     @Test
     @Ignore
     public void getStreamingPersons() throws URISyntaxException {
-        FluxExchangeResult<Person> personResult = webTestClient.get().uri("/react/persons/delay/300").accept(MediaType.APPLICATION_STREAM_JSON)
+        FluxExchangeResult<Person> personResult = webTestClient.get().uri("/react/persons/delay/300")
+                .accept(MediaType.APPLICATION_STREAM_JSON) //application/stream+json
                 .exchange().expectStatus().is2xxSuccessful()
                 .expectHeader().contentType(MediaType.parseMediaType("application/stream+json;charset=UTF-8"))
                 .expectBody(Person.class).returnResult();
 
-        personResult.getResponseBody().toStream().forEach(person -> System.out.println("WebTestClient: " + person.toString()));
+        personResult.getResponseBody().toStream()
+                .forEach(person -> System.out.println("WebTestClient: " + person.toString()));
 
         System.out.println("Ending Test");
     }
