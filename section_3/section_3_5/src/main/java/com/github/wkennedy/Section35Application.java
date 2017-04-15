@@ -2,6 +2,7 @@ package com.github.wkennedy;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -17,6 +18,9 @@ import javax.servlet.ServletException;
 public class Section35Application {
 
 	private static final Logger log = LoggerFactory.getLogger(Section35Application.class);
+
+	@Value("${simpleFilter.enabled}")
+	public boolean simpleFilterEnabled;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Section35Application.class, args);
@@ -37,16 +41,16 @@ public class Section35Application {
 //	}
 
 	//This is an alternative to the ServletComponentScan
-//	@Bean
-//	public SimpleFilter getSimpleFilter() {
-//		return new SimpleFilter();
-//	}
+	@Bean
+	public SimpleFilter getSimpleFilter() {
+		return new SimpleFilter();
+	}
 
-//	@Bean
-//	public FilterRegistrationBean registration(SimpleFilter filter) {
-//		FilterRegistrationBean registration = new FilterRegistrationBean<>(filter);
-//		registration.setEnabled(true);
-//		return registration;
-//	}
+	@Bean
+	public FilterRegistrationBean registration(SimpleFilter filter) {
+		FilterRegistrationBean registration = new FilterRegistrationBean<>(filter);
+		registration.setEnabled(simpleFilterEnabled);
+		return registration;
+	}
 
 }

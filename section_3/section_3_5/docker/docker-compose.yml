@@ -4,7 +4,7 @@ services:
   section-3-5-service:
     build: ../.
     ports:
-      - 8080:8080
+      - 8080
     hostname: app
     healthcheck:
       test: ["CMD", "curl", "-f", "http://app:8080/health"]
