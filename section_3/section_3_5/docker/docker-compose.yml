@@ -7,8 +7,8 @@ services:
       - 8080
     hostname: app
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://app:8080/health"]
-      interval: 30s
+      test: ["CMD", "curl", "-f", "http://app:8080/hello"]
+      interval: 10m
       timeout: 10s
       retries: 5
 
@@ -22,4 +22,4 @@ services:
       - section-3-5-service
     links:
       - section-3-5-service:app
-    entrypoint: dockerize -wait http://app:8080/health nginx -g 'daemon off;'
+    entrypoint: dockerize -wait http://app:8080/hello nginx -g 'daemon off;'

@@ -21,7 +21,7 @@ public class SimpleFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        log.info("In SimpleFilter " + request.getServerName());
+        log.info("In SimpleFilter with server name - " + request.getServerName() + " : server info - " + request.getServletContext().getServerInfo());
         chain.doFilter(request, response);
     }
 
