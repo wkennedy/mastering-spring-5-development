@@ -1,0 +1,9 @@
+version: '3'
+services:
+
+  thrift:
+    image: thrift:latest
+    volumes:
+      - ../src/main/thrift/:/data
+      - ../src/main/java/:/output
+    entrypoint: thrift -v -out /output --gen java /data/person.thrift

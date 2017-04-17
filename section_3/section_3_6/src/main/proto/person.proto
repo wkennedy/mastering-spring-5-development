@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package proto;
+
+option java_package = "com.github.proto";
+
+message PersonProto {
+    int32 id = 1;
+    string firstName = 2;
+    string lastName = 3;
+}

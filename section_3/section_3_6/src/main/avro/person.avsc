@@ -1,0 +1,9 @@
+{"namespace": "com.github.avro",
+  "type": "record",
+  "name": "Person",
+  "fields": [
+    {"name": "id",  "type": ["int", "null"]},
+    {"name": "firstName", "type": "string"},
+    {"name": "lastName", "type": "string"}
+  ]
+}
