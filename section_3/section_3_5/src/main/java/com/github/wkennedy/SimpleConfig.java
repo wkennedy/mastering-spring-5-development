@@ -13,7 +13,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
 @Configuration
-//@ServletComponentScan //needed for @WebFilter
+@ServletComponentScan //needed for @WebFilter
 public class SimpleConfig {
 
     private static Logger log = LoggerFactory.getLogger(SimpleConfig.class);
@@ -40,11 +40,11 @@ public class SimpleConfig {
 //		return new SimpleFilter();
 //	}
 
-    @Bean
-    public FilterRegistrationBean registerSimpleFilter() {
-        FilterRegistrationBean registration = new FilterRegistrationBean<>(new SimpleFilter());
-        registration.setEnabled(simpleFilterEnabled);
-        return registration;
-    }
+//    @Bean
+//    public FilterRegistrationBean registerSimpleFilter() {
+//        FilterRegistrationBean registration = new FilterRegistrationBean<>(new SimpleFilter());
+//        registration.setEnabled(simpleFilterEnabled);
+//        return registration;
+//    }
 
 }

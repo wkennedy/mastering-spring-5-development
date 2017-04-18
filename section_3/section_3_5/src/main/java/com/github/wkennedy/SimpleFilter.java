@@ -7,7 +7,7 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
-//@WebFilter("/*")
+@WebFilter("/*")
 public class SimpleFilter implements Filter {
 
     private static Logger log = LoggerFactory.getLogger(SimpleFilter.class);
