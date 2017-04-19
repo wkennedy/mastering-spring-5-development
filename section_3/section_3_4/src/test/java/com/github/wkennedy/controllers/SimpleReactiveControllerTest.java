@@ -22,7 +22,7 @@ import java.time.Duration;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @AutoConfigureWebTestClient
-@WebFluxTest
+//@WebFluxTest
 public class SimpleReactiveControllerTest {
 
     private WebTestClient webTestClient;
@@ -32,8 +32,8 @@ public class SimpleReactiveControllerTest {
 
     @Before
     public void before() {
-//        this.webTestClient = WebTestClient.bindToServer().baseUrl("http://127.0.0.1:8080").build();
-        this.webTestClient = WebTestClient.bindToController(new SimpleReactiveController(simpleService)).build();
+        this.webTestClient = WebTestClient.bindToServer().baseUrl("http://127.0.0.1:8080").build();
+//        this.webTestClient = WebTestClient.bindToController(new SimpleReactiveController(simpleService)).build();
     }
 
     @Test
@@ -44,11 +44,11 @@ public class SimpleReactiveControllerTest {
                 .exchange().expectStatus().is2xxSuccessful()
                 .expectBody(Person.class).returnResult().getResponseBody().cast(Person.class);
 
-        personFlux.delaySubscription(Duration.ofSeconds(2)).toStream().forEach(System.out::println);
+        personFlux.delaySubscription(Duration.ofSeconds(0)).toStream().forEach(System.out::println);
     }
 
     @Test
-    @Ignore
+//    @Ignore
     public void getStreamingPersons() throws URISyntaxException {
         FluxExchangeResult<Person> personResult = webTestClient.get().uri("/react/persons/delay/300")
                 .accept(MediaType.APPLICATION_STREAM_JSON) //application/stream+json
