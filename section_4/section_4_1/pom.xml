@@ -73,6 +73,7 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
@@ -102,7 +103,7 @@
 				<configuration>
 					<jdbc>
 						<driver>com.mysql.jdbc.Driver</driver>
-						<url>jdbc:mysql://localhost:3306/</url>
+						<url>jdbc:mysql://localhost:3307/</url>
 						<user>user</user>
 						<password>pass</password>
 					</jdbc>
@@ -110,7 +111,7 @@
 						<database>
 							<name>org.jooq.util.mysql.MySQLDatabase</name>
 							<includes>.*</includes>
-							<inputSchema>section4</inputSchema>
+							<inputSchema>section4_2</inputSchema>
 						</database>
 						<target>
 							<packageName>org.jooq.util.maven.example</packageName>

@@ -11,19 +11,21 @@ import org.springframework.context.annotation.Primary;
 import javax.sql.DataSource;
 
 @Configuration
-public class DataConfig {
+public class DataSourceConfig {
 
     @Bean
     @Primary
-    @FlywayDataSource
     @ConfigurationProperties(prefix="section4.datasource")
     public DataSource dataSource() {
         return DataSourceBuilder.create().build();
     }
 
-//    @Bean
-//    @ConfigurationProperties("section4.datasource2")
-//    public HikariDataSource dataSource2() {
-//        return (HikariDataSource) DataSourceBuilder.create().type(HikariDataSource.class).build();
-//    }
+    @Bean("dataSource2")
+    @ConfigurationProperties("section4.datasource2")
+    @FlywayDataSource
+    public HikariDataSource dataSource2() {
+        return (HikariDataSource) DataSourceBuilder.create().type(HikariDataSource.class).build();
+    }
+
+
 }

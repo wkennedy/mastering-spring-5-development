@@ -1,4 +1,4 @@
-CREATE TABLE section4.address
+CREATE TABLE section4_2.address
 (
   id INT PRIMARY KEY AUTO_INCREMENT,
   address1 VARCHAR(36) NOT NULL,
@@ -8,7 +8,7 @@ CREATE TABLE section4.address
   zip INT
 );
 
-ALTER TABLE section4.person ADD address INT NULL;
-ALTER TABLE section4.person
+ALTER TABLE section4_2.person ADD address INT NULL;
+ALTER TABLE section4_2.person
   ADD CONSTRAINT person_address_id_fk
 FOREIGN KEY (address) REFERENCES address (id);
