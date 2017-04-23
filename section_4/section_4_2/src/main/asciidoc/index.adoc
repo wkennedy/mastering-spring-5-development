@@ -1,4 +1,4 @@
-= Simple Service REST Doc
+= Spring Data REST Doc
 Will Kennedy;
 :doctype: book
 :icons: font
@@ -7,9 +7,9 @@ Will Kennedy;
 :toclevels: 2
 :sectlinks:
 
-== Simple Service
+== Spring Data Rest Docs
 
-This is a simple example of using Spring REST Docs to generate your API guide.
+This is a simple example of using Spring REST Docs to generate your Spring Data Rest API guide.
 
 === Index Example
 
@@ -28,16 +28,13 @@ include::{snippets}/index-example/curl-request.adoc[]
 ==== Links
 include::{snippets}/index-example/links.adoc[]
 
-=== Person Listing Example
+=== Person Example
 
 ==== Request structure
 include::{snippets}/person-list-example/http-request.adoc[]
 
 ==== Response structure
 include::{snippets}/person-list-example/http-response.adoc[]
-
-==== Path variable
-include::{snippets}/person-list-example/path-parameters.adoc[]
 
 ==== Response body
 include::{snippets}/person-list-example/response-body.adoc[]

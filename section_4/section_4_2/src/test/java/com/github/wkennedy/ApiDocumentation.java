@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.halLinks;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -58,7 +59,7 @@ public class ApiDocumentation {
         this.mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andDo(document("index-example",
-                        links(
+                        links(halLinks(),
                                 linkWithRel("person").description("The <<resources-person,Person resource>>"),
                                 linkWithRel("address").description("The <<resources-tags,Address resource>>"),
                                 linkWithRel("profile").description("The ALPS profile for the service")),
@@ -70,11 +71,12 @@ public class ApiDocumentation {
     @Test
     public void createPerson() throws Exception {
         createPerson("John", "Doe");
+        createPerson("Jane", "Doe");
 
         this.mockMvc.perform(get("/person"))
                 .andExpect(status().isOk())
                 .andDo(document("person-list-example",
-                        links(
+                        links(halLinks(),
                                 linkWithRel("self").description("Canonical link for this resource"),
                                 linkWithRel("profile").description("The ALPS profile for this resource")),
                         responseFields(
