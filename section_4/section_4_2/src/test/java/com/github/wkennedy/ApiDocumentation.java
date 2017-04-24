@@ -69,7 +69,7 @@ public class ApiDocumentation {
     }
 
     @Test
-    public void createPerson() throws Exception {
+    public void person() throws Exception {
         createPerson("John", "Doe");
         createPerson("Jane", "Doe");
 
