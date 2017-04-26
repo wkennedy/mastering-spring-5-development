@@ -1,5 +1,6 @@
 package com.github.wkennedy.repositories;
 
+import com.datastax.driver.core.utils.UUIDs;
 import com.github.wkennedy.entities.Person;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
-import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -26,7 +26,7 @@ public class PersonRepositoryTest {
     @Test
     public void testPerson() throws Exception {
         Person person = new Person();
-        person.setId(UUID.randomUUID());
+        person.setId(UUIDs.timeBased());
         person.setLastName("Doe");
         person.setFirstName("John");
 
