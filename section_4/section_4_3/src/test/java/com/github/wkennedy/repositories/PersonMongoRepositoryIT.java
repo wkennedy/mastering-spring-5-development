@@ -1,41 +1,40 @@
 package com.github.wkennedy.repositories;
 
-import com.datastax.driver.core.utils.UUIDs;
 import com.github.wkennedy.entities.Person;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
-public class PersonRepositoryIT {
+@DataMongoTest()
+public class PersonMongoRepositoryIT {
 
     @Autowired
-    private PersonRepository personRepository;
+    private PersonMongoRepository personMongoRepository;
 
     @Before
-    public void before() throws Exception {
-        personRepository.deleteAll();
+    public void setup() {
+        personMongoRepository.deleteAll();
     }
 
     @Test
-    public void testPerson() throws Exception {
+    public void testMongo() {
         Person person = new Person();
-        person.setId(UUIDs.timeBased());
+        person.setId(UUID.randomUUID());
         person.setLastName("Doe");
         person.setFirstName("John");
 
-        personRepository.save(person);
-        List<Person> personList = personRepository.findAll();
+        personMongoRepository.save(person);
+        List<Person> personList = personMongoRepository.findAll();
         Person personFromList = personList.get(0);
-        assertEquals("Doe", personFromList.getLastName());
+        assertEquals("John", personFromList.getFirstName());
     }
-
 }

@@ -15,3 +15,10 @@ services:
         - cassandra0:seed
       environment:
         - CASSANDRA_SEEDS=seed
+
+
+    mongo:
+      image: mongo:latest
+      ports:
+        - 27017:27017
+      command: -smallfiles -nojournal

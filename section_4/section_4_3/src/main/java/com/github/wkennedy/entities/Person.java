@@ -1,5 +1,6 @@
 package com.github.wkennedy.entities;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.cassandra.mapping.PrimaryKey;
 import org.springframework.data.cassandra.mapping.Table;
 
@@ -9,6 +10,7 @@ import java.util.UUID;
 public class Person {
 
     @PrimaryKey("id")
+    @Id
     private UUID id;
 
     private String lastName;
@@ -36,5 +38,14 @@ public class Person {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                '}';
     }
 }

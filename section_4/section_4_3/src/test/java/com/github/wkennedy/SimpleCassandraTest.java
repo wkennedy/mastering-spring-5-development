@@ -2,7 +2,7 @@ package com.github.wkennedy;
 
 import com.datastax.driver.core.utils.UUIDs;
 import com.github.wkennedy.entities.Person;
-import com.github.wkennedy.repositories.PersonRepository;
+import com.github.wkennedy.repositories.PersonCassandraRepository;
 import org.cassandraunit.spring.CassandraDataSet;
 import org.cassandraunit.spring.CassandraUnitDependencyInjectionIntegrationTestExecutionListener;
 import org.cassandraunit.spring.EmbeddedCassandra;
@@ -28,7 +28,7 @@ import static org.junit.Assert.assertEquals;
 public class SimpleCassandraTest {
 
     @Autowired
-    private PersonRepository personRepository;
+    private PersonCassandraRepository personCassandraRepository;
 
     @Test
     public void test() {
@@ -37,8 +37,8 @@ public class SimpleCassandraTest {
         person.setLastName("Doe");
         person.setFirstName("John");
 
-        personRepository.save(person);
-        List<Person> personList = personRepository.findAll();
+        personCassandraRepository.save(person);
+        List<Person> personList = personCassandraRepository.findAll();
         assertEquals(1, personList.size());
     }
 }
