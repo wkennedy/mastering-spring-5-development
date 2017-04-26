@@ -11,9 +11,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class PersonRepositoryTest {
+public class PersonRepositoryIT {
 
     @Autowired
     private PersonRepository personRepository;
@@ -32,7 +34,8 @@ public class PersonRepositoryTest {
 
         personRepository.save(person);
         List<Person> personList = personRepository.findAll();
-        personList.size();
+        Person personFromList = personList.get(0);
+        assertEquals("Doe", personFromList.getLastName());
     }
 
 }
