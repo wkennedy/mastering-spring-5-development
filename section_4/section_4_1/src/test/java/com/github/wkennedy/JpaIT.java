@@ -2,6 +2,7 @@ package com.github.wkennedy;
 
 import com.github.wkennedy.entity.PersonEntity;
 import com.github.wkennedy.repository.PersonRepository;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -22,6 +23,11 @@ public class JpaIT {
 
     @Autowired
     private PersonRepository personRepository;
+
+    @Before
+    public void setup() {
+        personRepository.deleteAll();
+    }
 
     @Test
     public void testPerson() {

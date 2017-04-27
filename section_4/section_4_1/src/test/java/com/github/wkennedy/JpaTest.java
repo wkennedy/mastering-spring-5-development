@@ -2,6 +2,7 @@ package com.github.wkennedy;
 
 import com.github.wkennedy.entity.PersonEntity;
 import com.github.wkennedy.repository.PersonRepository;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,11 @@ public class JpaTest {
 
     @Autowired
     private PersonRepository personRepository;
+
+    @Before
+    public void setup () {
+        personRepository.deleteAll();
+    }
 
     @Test
     public void testPerson() {

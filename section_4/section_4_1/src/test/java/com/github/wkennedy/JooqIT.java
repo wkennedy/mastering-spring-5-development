@@ -3,6 +3,7 @@ package com.github.wkennedy;
 import org.jooq.DSLContext;
 import org.jooq.Result;
 import org.jooq.util.maven.example.tables.records.PersonRecord;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,11 @@ public class JooqIT {
     @Autowired
     @Qualifier("dslContext")
     private DSLContext dslContext;
+
+    @Before
+    public void setup() {
+        dslContext.deleteFrom(PERSON).where(PERSON.ID.equal(3235)).execute();
+    }
 
     @Test
     public void testJooq() {
