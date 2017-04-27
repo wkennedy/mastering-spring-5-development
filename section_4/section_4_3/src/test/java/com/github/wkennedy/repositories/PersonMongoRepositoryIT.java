@@ -33,8 +33,11 @@ public class PersonMongoRepositoryIT {
         person.setFirstName("John");
 
         personMongoRepository.save(person);
+
         List<Person> personList = personMongoRepository.findAll();
+        assertEquals(1, personList.size());
         Person personFromList = personList.get(0);
+        assertEquals("Doe", personFromList.getLastName());
         assertEquals("John", personFromList.getFirstName());
     }
 }

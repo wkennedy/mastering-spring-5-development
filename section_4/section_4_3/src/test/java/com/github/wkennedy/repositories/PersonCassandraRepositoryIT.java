@@ -33,9 +33,12 @@ public class PersonCassandraRepositoryIT {
         person.setFirstName("John");
 
         personCassandraRepository.save(person);
+
         List<Person> personList = personCassandraRepository.findAll();
+        assertEquals(1, personList.size());
         Person personFromList = personList.get(0);
         assertEquals("Doe", personFromList.getLastName());
+        assertEquals("John", personFromList.getFirstName());
     }
 
 }

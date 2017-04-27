@@ -16,7 +16,6 @@ services:
       environment:
         - CASSANDRA_SEEDS=seed
 
-
     mongo:
       image: mongo:latest
       ports:

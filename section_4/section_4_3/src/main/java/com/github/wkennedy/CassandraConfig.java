@@ -1,7 +1,9 @@
 //package com.github.wkennedy;
 //
+//import org.springframework.cassandra.core.keyspace.DropKeyspaceSpecification;
 //import org.springframework.context.annotation.Configuration;
 //import org.springframework.data.cassandra.config.java.AbstractCassandraConfiguration;
+//
 //import java.util.Collections;
 //import java.util.List;
 //
@@ -17,6 +19,11 @@
 //    protected List<String> getStartupScripts() {
 //        String script = "CREATE KEYSPACE IF NOT EXISTS section_4_3 WITH REPLICATION = { 'class' : 'org.apache.cassandra.locator.SimpleStrategy', 'replication_factor': '1' } AND DURABLE_WRITES = true;";
 //        return Collections.singletonList(script);
+//    }
+//
+//    @Override
+//    protected List<DropKeyspaceSpecification> getKeyspaceDrops() {
+//        return Collections.singletonList(DropKeyspaceSpecification.dropKeyspace("section_4_3"));
 //    }
 //
 //}
