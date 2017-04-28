@@ -2,6 +2,7 @@ package com.github.wkennedy.routers;
 
 import com.github.wkennedy.dto.Person;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,8 @@ public class SimpleReactiveRouterTest {
     @Test
     public void routerFunction() throws Exception {
         Flux<Person> personFlux = webTestClient.get().uri("/react/functional/persons").accept(MediaType.APPLICATION_JSON)
-                .exchange().expectStatus().is2xxSuccessful().expectBody(Person.class)
-                .returnResult().getResponseBody().cast(Person.class);
+                .exchange().expectStatus().is2xxSuccessful()
+                .returnResult(Person.class).getResponseBody();
 
         personFlux.delaySubscription(Duration.ofSeconds(0))
                 .toStream()

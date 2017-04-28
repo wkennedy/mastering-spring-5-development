@@ -19,6 +19,8 @@ import reactor.core.publisher.Flux;
 import java.net.URISyntaxException;
 import java.time.Duration;
 
+import static org.junit.Assert.assertEquals;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @AutoConfigureWebTestClient
@@ -38,23 +40,24 @@ public class SimpleReactiveControllerTest {
 
     @Test
     public void getReactPersons() throws Exception {
-        Flux<Person> personFlux = webTestClient
+        FluxExchangeResult<Person> personFlux = webTestClient
                 .get().uri("/react/persons")
                 .accept(MediaType.APPLICATION_JSON) // text/event-stream or application/stream+json
                 .exchange().expectStatus().is2xxSuccessful()
-                .expectBody(Person.class).returnResult().getResponseBody().cast(Person.class);
+                .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+                .returnResult(Person.class);
 
-        personFlux.delaySubscription(Duration.ofSeconds(0)).toStream().forEach(System.out::println);
+        personFlux.getResponseBody().delaySubscription(Duration.ofSeconds(0)).toStream().forEach(System.out::println);
     }
 
     @Test
-//    @Ignore
+    @Ignore
     public void getStreamingPersons() throws URISyntaxException {
         FluxExchangeResult<Person> personResult = webTestClient.get().uri("/react/persons/delay/300")
                 .accept(MediaType.APPLICATION_STREAM_JSON) //application/stream+json
                 .exchange().expectStatus().is2xxSuccessful()
                 .expectHeader().contentType(MediaType.parseMediaType("application/stream+json;charset=UTF-8"))
-                .expectBody(Person.class).returnResult();
+                .returnResult(Person.class);
 
         personResult.getResponseBody().toStream()
                 .forEach(person -> System.out.println("WebTestClient: " + person.toString()));
@@ -71,7 +74,7 @@ public class SimpleReactiveControllerTest {
             this.delay = delay;
         }
         public void run() {
-            Flux<Person> personFlux = webTestClient.get().uri("/react/persons/delay/" + delay).accept(MediaType.APPLICATION_JSON).exchange().expectStatus().is2xxSuccessful().expectBody(Person.class).returnResult().getResponseBody().cast(Person.class);
+            Flux<Person> personFlux = webTestClient.get().uri("/react/persons/delay/" + delay).accept(MediaType.APPLICATION_JSON).exchange().expectStatus().is2xxSuccessful().returnResult(Person.class).getResponseBody();
             personFlux.delaySubscription(Duration.ofSeconds(delay)).toStream()
                     .forEach(s -> System.out.println(name + ": " + s));
         }
