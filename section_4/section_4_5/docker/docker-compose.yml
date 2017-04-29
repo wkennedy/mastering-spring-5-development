@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+
+    redis:
+      image: redis:latest
+      ports:
+        - 6380:6380
+        - 6379:6379
+
+     couchbase:
+       image: arungupta/couchbase
+       deploy:
+         replicas: 1
+       ports:
+         - 8091:8091
+         - 8092:8092
+         - 8093:8093
+         - 8094:8094
+         - 11210:11210
+
+    mongo:
+      image: mongo:latest
+      ports:
+        - 27017:27017
+      command: -smallfiles -nojournal
