@@ -8,16 +8,13 @@ services:
         - 6380:6380
         - 6379:6379
 
-     couchbase:
-       image: arungupta/couchbase
-       deploy:
-         replicas: 1
-       ports:
-         - 8091:8091
-         - 8092:8092
-         - 8093:8093
-         - 8094:8094
-         - 11210:11210
+    redisCommander:
+      image: tenstartups/redis-commander
+      command: '--redis-host redis'
+      links:
+        - redis:redis
+      ports:
+        - 8081:8081
 
     mongo:
       image: mongo:latest
