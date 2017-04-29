@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+
+    cassandra0:
+      image: cassandra:3.2
+      ports:
+        - 7000:7000
+        - 9042:9042
+        - 9160:9160
+
+    cassandra1:
+      image: cassandra:3.2
+      links:
+        - cassandra0:seed
+      environment:
+        - CASSANDRA_SEEDS=seed
+
+    mongo:
+      image: mongo:latest
+      ports:
+        - 27017:27017
+      command: -smallfiles -nojournal
