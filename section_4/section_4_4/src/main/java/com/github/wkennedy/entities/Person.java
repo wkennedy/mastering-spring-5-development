@@ -1,18 +1,18 @@
 package com.github.wkennedy.entities;
 
 import org.springframework.data.annotation.Id;
-//import org.springframework.data.cassandra.mapping.PrimaryKey;
-//import org.springframework.data.cassandra.mapping.Table;
+import org.springframework.data.cassandra.mapping.PrimaryKey;
+import org.springframework.data.cassandra.mapping.Table;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.util.UUID;
 
-//@Table("person")
+@Table("person")
 @Document
-public class Person {
+public class Person implements Serializable {
 
-//    @PrimaryKey("id")
+    @PrimaryKey("id")
     @Id
     private String id;
 

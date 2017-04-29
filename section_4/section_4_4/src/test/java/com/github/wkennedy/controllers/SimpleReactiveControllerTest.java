@@ -1,11 +1,12 @@
 package com.github.wkennedy.controllers;
 
 import com.github.wkennedy.entities.Person;
-import com.github.wkennedy.services.SimpleService;
+import com.github.wkennedy.repositories.PersonReactiveMongoRepository;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,8 +16,9 @@ import org.springframework.test.web.reactive.server.FluxExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 
-import java.net.URISyntaxException;
 import java.time.Duration;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
@@ -24,17 +26,34 @@ import java.time.Duration;
 //@WebFluxTest
 public class SimpleReactiveControllerTest {
 
+    private static final Logger log = LoggerFactory.getLogger(SimpleReactiveControllerTest.class);
+
     private WebTestClient webTestClient;
 
     @Autowired
-    private SimpleService simpleService;
+    private PersonReactiveMongoRepository personReactiveMongoRepository;
 
     @Before
     public void before() {
         this.webTestClient = WebTestClient.bindToServer().baseUrl("http://127.0.0.1:8080").build();
 //        this.webTestClient = WebTestClient.bindToController(new SimpleReactiveController(simpleService)).build();
-        Person person =  new Person("Doe", "John");
-        simpleService.createPerson(person);
+        personReactiveMongoRepository.deleteAll().block();
+        createPersons().then().block();
+    }
+
+    @Test
+    public void getReactPerson() throws Exception {
+        Person person = new Person("Doe", "John");
+        personReactiveMongoRepository.save(person).block();
+
+        FluxExchangeResult<Person> personFlux = webTestClient
+                .get().uri("/react/person/" + person.getId())
+                .accept(MediaType.APPLICATION_JSON) // text/event-stream or application/stream+json
+                .exchange().expectStatus().is2xxSuccessful()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+                .returnResult(Person.class);
+
+        personFlux.getResponseBody().delaySubscription(Duration.ofSeconds(0)).toStream().forEach(System.out::println);
     }
 
     @Test
@@ -47,12 +66,13 @@ public class SimpleReactiveControllerTest {
                 .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
                 .returnResult(Person.class);
 
-        personFlux.getResponseBody().delaySubscription(Duration.ofSeconds(0)).toStream().forEach(System.out::println);
+        personFlux.getResponseBody()
+                .delaySubscription(Duration.ofSeconds(0))
+                .toStream().forEach(System.out::println);
     }
 
     @Test
-//    @Ignore
-    public void getStreamingPersons() throws URISyntaxException {
+    public void getStreamingPersons() throws Exception {
         FluxExchangeResult<Person> personResult = webTestClient.get().uri("/react/persons/delay/300")
                 .accept(MediaType.APPLICATION_STREAM_JSON) //application/stream+json
                 .exchange().expectStatus().is2xxSuccessful()
@@ -62,26 +82,23 @@ public class SimpleReactiveControllerTest {
         personResult.getResponseBody().toStream()
                 .forEach(person -> System.out.println("WebTestClient: " + person.toString()));
 
+//        CountDownLatch latch = new CountDownLatch(1);
+//        personResult.getResponseBody()
+//                .doOnNext(person -> System.out.println("WebTestClient: " + person.toString()))
+//                .doOnComplete(latch::countDown)
+//                .doOnError(throwable -> latch.countDown()).subscribe();
+//        latch.await();
+
         System.out.println("Ending Test");
     }
 
-    public class ReactWorker extends Thread {
-        private String name;
-        private Long delay;
+    private Flux<Person> createPersons() {
+        Stream<Person> personStream = IntStream.range(0, 10)
+                .parallel()
+                .mapToObj(i -> new Person("John", "Doe" + i))
+                .peek(person -> log.info("Creating person: " + person.toString()));
 
-        ReactWorker(String name, Long delay) {
-            this.name = name;
-            this.delay = delay;
-        }
-        public void run() {
-            Flux<Person> personFlux = webTestClient.get().uri("/react/persons/delay/" + delay)
-                    .accept(MediaType.APPLICATION_JSON)
-                    .exchange().expectStatus().is2xxSuccessful()
-                    .returnResult(Person.class).getResponseBody();
-            personFlux.delaySubscription(Duration.ofSeconds(delay)).toStream()
-                    .forEach(s -> System.out.println(name + ": " + s));
-        }
-
+        return personReactiveMongoRepository.save(Flux.fromStream(personStream));
     }
 
 }
