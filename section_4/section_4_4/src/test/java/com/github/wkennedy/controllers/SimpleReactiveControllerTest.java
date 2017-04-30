@@ -2,6 +2,7 @@ package com.github.wkennedy.controllers;
 
 import com.github.wkennedy.entities.Person;
 import com.github.wkennedy.repositories.PersonReactiveMongoRepository;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +18,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 
 import java.time.Duration;
+import java.util.concurrent.CountDownLatch;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -33,19 +35,24 @@ public class SimpleReactiveControllerTest {
     @Autowired
     private PersonReactiveMongoRepository personReactiveMongoRepository;
 
+    private Person person = new Person("Doe", "John");
+
+
     @Before
     public void before() {
         this.webTestClient = WebTestClient.bindToServer().baseUrl("http://127.0.0.1:8080").build();
 //        this.webTestClient = WebTestClient.bindToController(new SimpleReactiveController(simpleService)).build();
-        personReactiveMongoRepository.deleteAll().block();
+        personReactiveMongoRepository.save(person).block();
         createPersons().then().block();
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        personReactiveMongoRepository.deleteAll().block();
     }
 
     @Test
     public void getReactPerson() throws Exception {
-        Person person = new Person("Doe", "John");
-        personReactiveMongoRepository.save(person).block();
-
         FluxExchangeResult<Person> personFlux = webTestClient
                 .get().uri("/react/person/" + person.getId())
                 .accept(MediaType.APPLICATION_JSON) // text/event-stream or application/stream+json
@@ -53,7 +60,7 @@ public class SimpleReactiveControllerTest {
                 .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
                 .returnResult(Person.class);
 
-        personFlux.getResponseBody().delaySubscription(Duration.ofSeconds(0)).toStream().forEach(System.out::println);
+        personFlux.getResponseBody().toStream().forEach(System.out::println);
     }
 
     @Test
@@ -67,8 +74,12 @@ public class SimpleReactiveControllerTest {
                 .returnResult(Person.class);
 
         personFlux.getResponseBody()
-                .delaySubscription(Duration.ofSeconds(0))
-                .toStream().forEach(System.out::println);
+                .doOnNext(System.out::println)
+                .doOnComplete(() -> System.out.println("Finished getReactPersons test")).log()
+                .subscribe();
+
+//        personFlux.getResponseBody()
+//                .toStream().forEach(System.out::println);
     }
 
     @Test
@@ -79,21 +90,23 @@ public class SimpleReactiveControllerTest {
                 .expectHeader().contentType(MediaType.parseMediaType("application/stream+json;charset=UTF-8"))
                 .returnResult(Person.class);
 
-        personResult.getResponseBody().toStream()
-                .forEach(person -> System.out.println("WebTestClient: " + person.toString()));
+//        personResult.getResponseBody().toStream()
+//                .forEach(person -> System.out.println("WebTestClient: " + person.toString()));
 
-//        CountDownLatch latch = new CountDownLatch(1);
-//        personResult.getResponseBody()
-//                .doOnNext(person -> System.out.println("WebTestClient: " + person.toString()))
-//                .doOnComplete(latch::countDown)
-//                .doOnError(throwable -> latch.countDown()).subscribe();
-//        latch.await();
+        CountDownLatch latch = new CountDownLatch(1);
+        personResult.getResponseBody()
+                .doOnNext(person -> System.out.println("WebTestClient: " + person.toString()))
+                .doOnComplete(latch::countDown)
+                .doOnError(throwable -> latch.countDown())
+                .log()
+                .subscribe();
+        latch.await();
 
-        System.out.println("Ending Test");
+        System.out.println("Ending getStreamingPersons test");
     }
 
     private Flux<Person> createPersons() {
-        Stream<Person> personStream = IntStream.range(0, 10)
+        Stream<Person> personStream = IntStream.range(0, 20)
                 .parallel()
                 .mapToObj(i -> new Person("John", "Doe" + i))
                 .peek(person -> log.info("Creating person: " + person.toString()));
