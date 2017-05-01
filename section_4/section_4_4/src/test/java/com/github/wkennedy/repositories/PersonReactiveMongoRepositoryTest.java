@@ -54,7 +54,7 @@ public class PersonReactiveMongoRepositoryTest {
     }
 
     private Flux<Person> createPersons() {
-        Stream<Person> personStream = IntStream.range(0, 100000)
+        Stream<Person> personStream = IntStream.range(0, 20)
                 .parallel()
                 .mapToObj(i -> new Person("John", "Doe" + i))
                 .peek(person -> log.info("Creating person: " + person.toString()));
