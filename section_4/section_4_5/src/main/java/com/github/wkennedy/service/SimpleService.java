@@ -24,12 +24,13 @@ public class SimpleService {
 
     @Cacheable(value="findById", key="#id")
     public Person getPersonById(String id) {
-        artificialLatency(2000L);
+        artificialLatency(3000L);
         return personMongoRepository.findById(id);
     }
 
     private void artificialLatency(long milliseconds){
         try {
+            System.out.println("Artificial latency...");
             Thread.sleep(milliseconds);
         } catch (InterruptedException e) {
             throw new IllegalStateException(e);
