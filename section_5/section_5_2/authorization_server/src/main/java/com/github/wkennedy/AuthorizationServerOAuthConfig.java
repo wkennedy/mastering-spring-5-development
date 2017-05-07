@@ -45,7 +45,7 @@ public class AuthorizationServerOAuthConfig extends AuthorizationServerConfigure
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
-        oauthServer.tokenKeyAccess("isAnonymous() || hasRole('ROLE_TRUSTED_CLIENT')")
+        oauthServer.tokenKeyAccess("isAnonymous() || hasRole('ROLE_TRUSTED_CLIENT') || permitAll()")
                    .checkTokenAccess("hasRole('TRUSTED_CLIENT')");
     }
 
@@ -63,7 +63,6 @@ public class AuthorizationServerOAuthConfig extends AuthorizationServerConfigure
                 .secret("secret")
                 .authorizedGrantTypes("authorization_code", "refresh_token", "password", "client_credentials")
                 .authorities("ROLE_USER")
-                .redirectUris("http://localhost:8080/api/person")
                 .scopes("read");
     }
 

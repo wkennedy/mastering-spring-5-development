@@ -21,4 +21,17 @@ public class SimpleController {
     public String getPerson() {
         return restTemplate.getForObject("http://localhost:8083/resource/person", String.class);
     }
+
+    @GetMapping("/order")
+    public String getOrder() {
+        return restTemplate.getForObject("http://localhost:8084/resource2/order", String.class);
+    }
+
+    @GetMapping("/person_order")
+    public String getPersonOrder() {
+        String person = restTemplate.getForObject("http://localhost:8083/resource/person", String.class);
+        String order = restTemplate.getForObject("http://localhost:8084/resource2/order", String.class);
+        return person + order;
+    }
+
 }
