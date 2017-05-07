@@ -17,7 +17,6 @@ public class AuthorizationServerApplication {
 		SpringApplication.run(AuthorizationServerApplication.class, args);
 	}
 
-	//curl client:secret@localhost:8080/oauth/token -d grant_type=password -d scope=read -d username=user -d password=pwd -u foo:bar
 	@GetMapping(value = {"/user", "/me"})
 	public Principal user(Principal user) {
 		return user;
