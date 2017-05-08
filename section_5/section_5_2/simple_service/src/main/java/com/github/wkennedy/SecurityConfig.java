@@ -14,7 +14,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 @Configuration
 @EnableOAuth2Client
 //@EnableOAuth2Sso
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig { //extends WebSecurityConfigurerAdapter {
 
     @Bean("oauth2RestTemplate")
     public OAuth2RestTemplate oauth2RestTemplate(@Qualifier("oauth2ClientContext") OAuth2ClientContext oauth2ClientContext,

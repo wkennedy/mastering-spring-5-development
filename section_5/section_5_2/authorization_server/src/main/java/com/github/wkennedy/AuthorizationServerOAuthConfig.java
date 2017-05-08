@@ -17,10 +17,10 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @EnableAuthorizationServer
 public class AuthorizationServerOAuthConfig extends AuthorizationServerConfigurerAdapter {
 
-    @Value("${config.oauth2.jwt.privateKey}")
+    @Value("${security.oauth2.jwt.privateKey}")
     private String jwtPrivateKey;
 
-    @Value("${config.oauth2.jwt.publicKey}")
+    @Value("${security.oauth2.jwt.publicKey}")
     private String jwtPublicKey;
 
     private final AuthenticationManager authenticationManager;
@@ -31,7 +31,7 @@ public class AuthorizationServerOAuthConfig extends AuthorizationServerConfigure
     }
 
     @Bean
-    public JwtAccessTokenConverter tokenEnhancer() {
+    public JwtAccessTokenConverter tokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         converter.setSigningKey(jwtPrivateKey);
         converter.setVerifierKey(jwtPublicKey);
@@ -40,7 +40,7 @@ public class AuthorizationServerOAuthConfig extends AuthorizationServerConfigure
 
     @Bean
     public JwtTokenStore tokenStore() {
-        return new JwtTokenStore(tokenEnhancer());
+        return new JwtTokenStore(tokenConverter());
     }
 
     @Override
@@ -53,7 +53,7 @@ public class AuthorizationServerOAuthConfig extends AuthorizationServerConfigure
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.authenticationManager(authenticationManager)
                  .tokenStore(tokenStore())
-                 .accessTokenConverter(tokenEnhancer());
+                 .accessTokenConverter(tokenConverter());
     }
 
     @Override
