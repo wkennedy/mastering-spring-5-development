@@ -38,6 +38,7 @@ public class SimpleReactiveControllerTest {
 //        this.webTestClient = WebTestClient.bindToController(new SimpleReactiveController(simpleService)).build();
     }
 
+    @Ignore
     @Test
     public void getReactPersons() throws Exception {
         FluxExchangeResult<Person> personFlux = webTestClient
@@ -50,8 +51,8 @@ public class SimpleReactiveControllerTest {
         personFlux.getResponseBody().delaySubscription(Duration.ofSeconds(0)).toStream().forEach(System.out::println);
     }
 
-    @Test
     @Ignore
+    @Test
     public void getStreamingPersons() throws URISyntaxException {
         FluxExchangeResult<Person> personResult = webTestClient.get().uri("/react/persons/delay/300")
                 .accept(MediaType.APPLICATION_STREAM_JSON) //application/stream+json
