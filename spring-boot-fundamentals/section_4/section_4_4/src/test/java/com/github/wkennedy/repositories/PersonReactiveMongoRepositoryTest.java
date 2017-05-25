@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
@@ -59,7 +60,7 @@ public class PersonReactiveMongoRepositoryTest {
                 .mapToObj(i -> new Person("John", "Doe" + i))
                 .peek(person -> log.info("Creating person: " + person.toString()));
 
-        return personReactiveMongoRepository.save(Flux.fromStream(personStream));
+        return personReactiveMongoRepository.insert(Flux.fromStream(personStream));
     }
 
     @Test

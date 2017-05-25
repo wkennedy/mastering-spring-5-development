@@ -111,7 +111,7 @@ public class SimpleReactiveControllerTest {
                 .mapToObj(i -> new Person("John", "Doe" + i))
                 .peek(person -> log.info("Creating person: " + person.toString()));
 
-        return personReactiveMongoRepository.save(Flux.fromStream(personStream));
+        return personReactiveMongoRepository.insert(Flux.fromStream(personStream));
     }
 
 }
