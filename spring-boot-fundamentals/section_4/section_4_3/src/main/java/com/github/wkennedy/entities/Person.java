@@ -1,8 +1,8 @@
 package com.github.wkennedy.entities;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.cassandra.mapping.PrimaryKey;
-import org.springframework.data.cassandra.mapping.Table;
+import org.springframework.data.cassandra.core.mapping.PrimaryKey;
+import org.springframework.data.cassandra.core.mapping.Table;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.UUID;
