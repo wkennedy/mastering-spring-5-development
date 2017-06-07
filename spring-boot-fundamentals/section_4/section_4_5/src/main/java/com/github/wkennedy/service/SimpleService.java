@@ -25,7 +25,7 @@ public class SimpleService {
     @Cacheable(value="findById", key="#id")
     public Person getPersonById(String id) {
         artificialLatency(3000L);
-        return personMongoRepository.findById(id);
+        return personMongoRepository.findById(id).get();
     }
 
     private void artificialLatency(long milliseconds){

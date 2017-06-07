@@ -54,6 +54,6 @@ public class PersonReactiveCassandraRepositoryIT {
                 .mapToObj(i -> new Person("John", "Doe" + i))
                 .peek(person -> log.info("Creating person: " + person.toString()));
 
-        return personReactiveCassandraRepository.save(Flux.fromStream(personStream));
+        return personReactiveCassandraRepository.insert(Flux.fromStream(personStream));
     }
 }

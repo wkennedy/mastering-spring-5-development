@@ -44,6 +44,6 @@ public class SimpleReactiveController {
 
     @GetMapping("/person/{id}")
     public Mono<Person> getPerson(@PathVariable String id) {
-        return personReactiveMongoRepository.findOne(id);
+        return personReactiveMongoRepository.findById(id);
     }
 }

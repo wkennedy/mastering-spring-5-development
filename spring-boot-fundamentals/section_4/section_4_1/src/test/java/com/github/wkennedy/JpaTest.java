@@ -32,7 +32,7 @@ public class JpaTest {
     public void testPerson() {
         PersonEntity person = generatePerson();
         person = personRepository.save(person);
-        Optional<PersonEntity> personFromRepo = personRepository.findOne(person.getId());
+        Optional<PersonEntity> personFromRepo = personRepository.findById(person.getId());
         assertTrue(personFromRepo.isPresent());
         System.out.println(personFromRepo.get().toString());
     }

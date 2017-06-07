@@ -30,7 +30,7 @@ public class JpaIT {
         person.setLastName("Doh");
         person = personRepository.save(person);
 
-        Optional<PersonEntity> personFromRepo = personRepository.findOne(person.getId());
+        Optional<PersonEntity> personFromRepo = personRepository.findById(person.getId());
         assertTrue(personFromRepo.isPresent());
         log.info(personFromRepo.get().toString());
     }

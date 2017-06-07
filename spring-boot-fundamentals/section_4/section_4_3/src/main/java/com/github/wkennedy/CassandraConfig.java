@@ -1,8 +1,8 @@
 package com.github.wkennedy;
 
-import org.springframework.cassandra.core.keyspace.DropKeyspaceSpecification;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.cassandra.config.java.AbstractCassandraConfiguration;
+import org.springframework.data.cql.core.keyspace.DropKeyspaceSpecification;
 
 import java.util.Collections;
 import java.util.List;
