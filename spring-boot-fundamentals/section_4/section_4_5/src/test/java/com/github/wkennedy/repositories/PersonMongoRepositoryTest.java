@@ -33,10 +33,10 @@ public class PersonMongoRepositoryTest {
 
     @Test
     public void basicTest() throws Exception {
-        Person personFromId = personMongoRepository.findById(person.getId());
+        Person personFromId = personMongoRepository.findById(person.getId()).get();
         System.out.println(personFromId.toString());
 
-        personFromId = personMongoRepository.findById(person.getId());
+        personFromId = personMongoRepository.findById(person.getId()).get();
         System.out.println(personFromId.toString());
 
         personFromId.setFirstName("Test");
@@ -44,10 +44,10 @@ public class PersonMongoRepositoryTest {
 
         Thread.sleep(2000);
 
-        personFromId = personMongoRepository.findById(person.getId());
+        personFromId = personMongoRepository.findById(person.getId()).get();
         System.out.println(personFromId.toString());
 
-        personFromId = personMongoRepository.findById(person.getId());
+        personFromId = personMongoRepository.findById(person.getId()).get();
         System.out.println(personFromId.toString());
     }
 
